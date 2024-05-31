@@ -1,18 +1,11 @@
-import {View, Text, StyleSheet} from 'react-native';
-import React from 'react';
+import React, { useContext } from "react";
+import { SelectedFilterContext } from "../../store/context/selected-filter-context.tsx";
+import CommonMoviesScreen from "../CommonMoviesScreen.tsx";
 
 export default function MoviesScreen(): React.JSX.Element {
+  const selectedFilterCtx = useContext(SelectedFilterContext);
+
   return (
-    <View style={styles.container}>
-      <Text>Movies Screen</Text>
-    </View>
+    <CommonMoviesScreen selectedFilter={selectedFilterCtx?.selectedFilter || "Popular"} />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});

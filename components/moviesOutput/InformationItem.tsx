@@ -1,9 +1,14 @@
-import {View, Text, StyleSheet} from 'react-native';
-import React from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import {GlobalStyle} from '../../constants/styles';
+import { View, Text, StyleSheet } from "react-native";
+import React from "react";
+import Icon from "react-native-vector-icons/FontAwesome5";
+import { GlobalStyle } from "../../constants/styles";
 
-function InformationItem({iconName, text}): React.JSX.Element {
+type InformationItemProps = {
+  iconName: string;
+  text: string;
+};
+
+function InformationItem({ iconName, text }: InformationItemProps): React.JSX.Element {
   return (
     <View style={styles.itemContainer}>
       <Icon
@@ -21,11 +26,11 @@ export default InformationItem;
 
 const styles = StyleSheet.create({
   itemContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 2,
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 2
   },
   icon: {
-    marginHorizontal: 3,
-  },
+    marginHorizontal: 3
+  }
 });

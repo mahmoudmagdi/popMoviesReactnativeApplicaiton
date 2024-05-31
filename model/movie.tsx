@@ -1,4 +1,4 @@
-import Genres from './genres.tsx';
+import Genres from "./genres.tsx";
 
 class Movie {
   id: number;
@@ -30,7 +30,7 @@ class Movie {
     revenue: number,
     tagline: string,
     vote_average: number,
-    vote_count: number,
+    vote_count: number
   ) {
     this.id = id;
     this.title = title;
