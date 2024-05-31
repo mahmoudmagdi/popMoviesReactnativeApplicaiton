@@ -1,98 +1,61 @@
-import axios, {AxiosResponse} from 'axios';
-import Movie from '../model/movie.tsx';
+import axios, { AxiosResponse } from "axios";
+import Movie from "../model/movie.tsx";
 
-const BASE_URL = 'https://api.themoviedb.org/3';
-const API_KEY = 'e6fa82941c0636c71720fceec76bc5d3';
+const BASE_URL = "https://api.themoviedb.org/3";
+const API_KEY = "e6fa82941c0636c71720fceec76bc5d3";
 
 const axiosClient = axios.create({
-  baseURL: BASE_URL,
+  baseURL: BASE_URL
 });
 
-async function fetchPopularMovies(
-  page: number = 1,
-  language: string = 'en-us',
-): Promise<Movie[]> {
-  const response = await axiosClient.get(
-    `/movie/popular?api_key=${API_KEY}&language=${language}&page=${page}`,
-  );
+export type fetchMoviesProps = {
+  category: string | null;
+  page: number | null;
+  language: string | null;
+}
 
-  const movies: Movie[] = [];
+async function fetchMovies({ category, page = 1, language = "en-us" }: fetchMoviesProps): Promise<Movie[]> {
 
-  for (const movie of response.data.results) {
-    movies.push(
-      new Movie(
-        movie.id,
-        movie.title,
-        movie.adult,
-        movie.backdrop_path,
-        movie.genres,
-        movie.original_language,
-        movie.overview,
-        movie.popularity,
-        movie.poster_path,
-        movie.release_date,
-        movie.revenue,
-        movie.tagline,
-        movie.vote_average,
-        movie.vote_count,
-      ),
-    );
+  let url: string;
+  switch (category) {
+    case "popular":
+      url = `/movie/popular?api_key=${API_KEY}&language=${language}&page=${page}`;
+      break;
+    case "top_rated":
+      url = `/movie/top_rated?api_key=${API_KEY}&language=${language}&page=${page}`;
+      break;
+    case "upcoming":
+      url = `/movie/upcoming?api_key=${API_KEY}&language=${language}&page=${page}`;
+      break;
+    case "now_playing":
+      url = `/movie/now_playing?api_key=${API_KEY}&language=${language}&page=${page}`;
+      break;
+    default:
+      url = `/movie/popular?api_key=${API_KEY}&language=${language}&page=${page}`;
   }
 
-  return movies;
-}
+  const response: AxiosResponse<any, any> = await axiosClient.get(url);
 
-function getTopRatedMovies(
-  page: number,
-  language: string = 'en-us',
-): Promise<AxiosResponse<Movie[]>> {
-  return axiosClient.get(
-    `/movie/top_rated?api_key=${API_KEY}&language=${language}&page=${page}`,
-  );
-}
-
-function getUpcomingMovies(
-  page: number,
-  language: string = 'en-us',
-): Promise<AxiosResponse<Movie[]>> {
-  return axiosClient.get(
-    `/movie/upcoming?api_key=${API_KEY}&language=${language}&page=${page}`,
-  );
-}
-
-function getNowPlayingMovies(
-  page: number,
-  language: string = 'en-us',
-): Promise<AxiosResponse<Movie[]>> {
-  return axiosClient.get(
-    `/movie/now_playing?api_key=${API_KEY}&language=${language}&page=${page}`,
-  );
+  return response.data.results;
 }
 
 function getMovieDetail(
   movieId: number,
-  language: string = 'en-us',
+  language: string = "en-us"
 ): Promise<AxiosResponse<Movie>> {
   return axiosClient.get(
-    `/movie/${movieId}?api_key=${API_KEY}&language=${language}`,
+    `/movie/${movieId}?api_key=${API_KEY}&language=${language}`
   );
 }
 
 function searchMovies(
   query: string,
   page: number,
-  language: string = 'en-us',
+  language: string = "en-us"
 ): Promise<AxiosResponse<Movie[]>> {
   return axiosClient.get(
-    `/search/movie?api_key=${API_KEY}&language=${language}&query=${query}&page=${page}`,
+    `/search/movie?api_key=${API_KEY}&language=${language}&query=${query}&page=${page}`
   );
 }
 
-export {
-  fetchPopularMovies,
-  getTopRatedMovies,
-  getUpcomingMovies,
-  getNowPlayingMovies,
-  getMovieDetail,
-  searchMovies,
-};
+export { fetchMovies, getMovieDetail, searchMovies };
