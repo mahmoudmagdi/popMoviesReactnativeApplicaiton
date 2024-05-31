@@ -1,20 +1,28 @@
-import React from 'react';
-import {FlatList, useWindowDimensions} from 'react-native';
-import MovieCard from './MovieCard';
-import Movie from '../../model/movie';
+import React from "react";
+import { FlatList, ScaledSize, useWindowDimensions } from "react-native";
+import MovieCard from "./MovieCard";
+import Movie from "../../model/movie";
+import QuickMoviesSelector from "./QuickMoviesSelector";
+import { FILTERS } from "../../data/filters";
 
-function renderMovieItem({item}: {item: Movie}) {
+function renderMovieItem({ item }: { item: Movie }) {
   return <MovieCard movie={item} />;
 }
-interface Props {
-  movies: Movie[];
-  actors?: string[];
+
+function renderHeaderComponent(): React.JSX.Element {
+  return (
+    <QuickMoviesSelector filters={FILTERS} />
+  );
 }
 
-function MoviesList({movies, actors}: Props) {
-  const windowDimensions = useWindowDimensions();
-  const numberOfColumns = windowDimensions.width > 600 ? 4 : 2;
-  const key = numberOfColumns === 4 ? 'landscape-' : 'portrait-';
+interface MoviesListProps {
+  movies: Movie[];
+}
+
+function MoviesList({ movies }: MoviesListProps) {
+  const windowDimensions: ScaledSize = useWindowDimensions();
+  const numberOfColumns: number = windowDimensions.width > 600 ? 4 : 2;
+  const key: string = numberOfColumns === 4 ? "landscape-" : "portrait-";
   return (
     <FlatList
       key={key}
@@ -22,6 +30,7 @@ function MoviesList({movies, actors}: Props) {
       renderItem={renderMovieItem}
       keyExtractor={item => key + item.id.toString()}
       numColumns={numberOfColumns}
+      ListHeaderComponent={renderHeaderComponent}
     />
   );
 }

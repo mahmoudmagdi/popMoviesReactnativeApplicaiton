@@ -1,39 +1,43 @@
-import {View, StyleSheet} from 'react-native';
-import React from 'react';
-import InformationItem from './InformationItem';
+import { View, StyleSheet } from "react-native";
+import React from "react";
+import InformationItem from "./InformationItem";
+import Movie from "../../model/Movie";
+
+type MovieDetailsProps = {
+  customStyle?: any | undefined;
+  direction?: "column" | "row";
+  movie: Movie | null;
+};
 
 function MovieDetails({
-  customStyle = null,
-  original_language = '',
-  popularity = 0,
-  vote_average = 0,
-  vote_count = 0,
-  direction = 'column',
-}): React.JSX.Element {
-  let content = (
+                        customStyle = null,
+                        direction = "column",
+                        movie: movie
+                      }: MovieDetailsProps): React.JSX.Element {
+  let content: React.JSX.Element = (
     <>
       <View style={styles.informationContainer}>
-        <InformationItem iconName="globe-africa" text={original_language} />
-        <InformationItem iconName="users" text={popularity} />
+        <InformationItem iconName="globe-africa" text={movie?.original_language || ""} />
+        <InformationItem iconName="users" text={movie?.popularity.toString() || ""} />
       </View>
       <View style={styles.informationContainer}>
         <InformationItem
           iconName="star"
-          text={`${vote_average} (${vote_count})`}
+          text={`${movie?.vote_average} (${movie?.vote_count})`}
         />
       </View>
     </>
   );
 
-  if (direction === 'row') {
+  if (direction === "row") {
     content = (
       <>
         <View style={styles.informationContainer}>
-          <InformationItem iconName="globe-africa" text={original_language} />
-          <InformationItem iconName="users" text={popularity} />
+          <InformationItem iconName="globe-africa" text={movie?.original_language || ""} />
+          <InformationItem iconName="users" text={movie?.popularity.toString() || ""} />
           <InformationItem
             iconName="star"
-            text={`${vote_average} (${vote_count})`}
+            text={`${movie?.vote_average} (${movie?.vote_count})`}
           />
         </View>
       </>
@@ -48,12 +52,12 @@ export default MovieDetails;
 const styles = StyleSheet.create({
   outerContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center"
   },
   informationContainer: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
+    flexDirection: "row",
+    justifyContent: "space-between"
+  }
 });

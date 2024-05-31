@@ -1,4 +1,4 @@
-import Movie from './movie.tsx';
+import Movie from "./movie.tsx";
 
 class MovieListResponse {
   page: number;
@@ -10,7 +10,7 @@ class MovieListResponse {
     page: number,
     results: Movie[],
     total_results: number,
-    total_pages: number,
+    total_pages: number
   ) {
     this.page = page;
     this.results = results;
