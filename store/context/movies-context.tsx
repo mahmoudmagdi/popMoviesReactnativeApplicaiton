@@ -1,30 +1,103 @@
-import React, { createContext, useReducer } from 'react';
-import Movie from '../../model/movie.tsx';
+import React, { createContext, useReducer } from "react";
+import Movie from "../../model/movie";
 
-export const MoviesContext = createContext({
-  movies: [],
-  setPopularMovies: (movies: Movie[]) => {},
-});
+type MoviesContextProps = {
+  popularMovies: Movie[];
+  topRatedMovies: Movie[];
+  upcomingMovies: Movie[];
+  nowPlayingMovies: Movie[];
 
-const moviesReducer = (state, action) => {
+  setPopularMovies: (movie: Movie[]) => void;
+  setTopRatedMovies: (movie: Movie[]) => void;
+  setUpcomingMovies: (movie: Movie[]) => void;
+  setNowPlayingMovies: (movie: Movie[]) => void;
+}
+
+type MoviesActionProps = {
+  type: string;
+  popularMovies: Movie[] | [];
+  topRatedMovies: Movie[] | [];
+  upcomingMovies: Movie[] | [];
+  nowPlayingMovies: Movie[] | [];
+}
+
+export const MoviesContext: React.Context<MoviesContextProps | null> = createContext<MoviesContextProps | null>(null);
+
+const moviesReducer = (state: Movie[], action: MoviesActionProps) => {
   switch (action.type) {
-    case 'ADD_POPULAR_MOVIES':
-      return action.movies;
+    case "ADD_POPULAR_MOVIES":
+      console.log("Adding popular movies");
+      return action.popularMovies;
+    case "ADD_TOP_RATED_MOVIES":
+      return action.topRatedMovies;
+    case "ADD_UPCOMING_MOVIES":
+      return action.upcomingMovies;
+    case "ADD_NOW_PLAYING_MOVIES":
+      return action.nowPlayingMovies;
     default:
       return state;
   }
 };
 
-function MoviesContextProvider({children}): React.JSX.Element {
-  const [moviesState, dispatch] = useReducer(moviesReducer, []);
+function MoviesContextProvider({ children }: any): React.JSX.Element {
+  const [popularMoviesState, dispatchPopularMovies] = useReducer(moviesReducer, []);
+  const [topRatedMoviesState, dispatchTopRatedMovies] = useReducer(moviesReducer, []);
+  const [upcomingMoviesState, dispatchUpcomingMovies] = useReducer(moviesReducer, []);
+  const [nowPlayingMoviesState, dispatchNowPlayingMovies] = useReducer(moviesReducer, []);
 
   const setPopularMovies = (movies: Movie[]) => {
-    dispatch({type: 'ADD_POPULAR_MOVIES', movies});
+    const moviesActionProps: MoviesActionProps = {
+      type: "ADD_POPULAR_MOVIES",
+      popularMovies: movies,
+      topRatedMovies: [],
+      upcomingMovies: [],
+      nowPlayingMovies: []
+    };
+    dispatchPopularMovies(moviesActionProps);
+  };
+
+  const setTopRatedMovies = (movies: Movie[]) => {
+    const moviesActionProps: MoviesActionProps = {
+      type: "ADD_TOP_RATED_MOVIES",
+      popularMovies: [],
+      topRatedMovies: movies,
+      upcomingMovies: [],
+      nowPlayingMovies: []
+    };
+    dispatchTopRatedMovies(moviesActionProps);
+  };
+
+  const setUpcomingMovies = (movies: Movie[]) => {
+    const moviesActionProps: MoviesActionProps = {
+      type: "ADD_UPCOMING_MOVIES",
+      popularMovies: [],
+      topRatedMovies: [],
+      upcomingMovies: movies,
+      nowPlayingMovies: []
+    };
+    dispatchUpcomingMovies(moviesActionProps);
+  };
+
+  const setNowPlayingMovies = (movies: Movie[]) => {
+    const moviesActionProps: MoviesActionProps = {
+      type: "ADD_NOW_PLAYING_MOVIES",
+      popularMovies: [],
+      topRatedMovies: [],
+      upcomingMovies: [],
+      nowPlayingMovies: movies
+    };
+    dispatchNowPlayingMovies(moviesActionProps);
   };
 
   const value = {
-    movies: moviesState,
+    popularMovies: popularMoviesState,
+    topRatedMovies: topRatedMoviesState,
+    upcomingMovies: upcomingMoviesState,
+    nowPlayingMovies: nowPlayingMoviesState,
     setPopularMovies: setPopularMovies,
+    setTopRatedMovies: setTopRatedMovies,
+    setUpcomingMovies: setUpcomingMovies,
+    setNowPlayingMovies: setNowPlayingMovies
   };
 
   return (
