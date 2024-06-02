@@ -1,14 +1,20 @@
 import {createSlice} from '@reduxjs/toolkit';
+import Movie from '../../model/movie.tsx';
 
 const favoritesSlice = createSlice({
   name: 'favorites',
-  initialState: [],
+  initialState: {
+    favoriteMovies: [] as Movie[],
+  },
   reducers: {
     addFavorite: (state, action) => {
-      state.push(action.payload);
+      state.favoriteMovies.push(action.payload);
     },
     removeFavorite: (state, action) => {
-      return state.filter(movie => movie.id !== action.payload.id);
+      state.favoriteMovies.splice(
+        state.favoriteMovies.indexOf(action.payload),
+        1,
+      );
     },
   },
 });
