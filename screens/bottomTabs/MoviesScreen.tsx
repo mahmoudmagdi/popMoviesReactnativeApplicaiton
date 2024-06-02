@@ -1,22 +1,23 @@
 import React, { useContext, useEffect, useState } from "react";
-import { fetchMovies } from "../services/movies.service.tsx";
-import { MoviesContext } from "../store/context/movies-context.tsx";
-import ErrorOverlay from "../components/UI/ErrorOverlay.tsx";
-import LoadingOverlay from "../components/UI/LoadingOverlay.tsx";
-import MoviesList from "../components/moviesOutput/MoviesList.tsx";
-import Movie from "../model/movie.tsx";
-import { getSelectedFilterKey } from "../utils/Utils.tsx";
+import { SelectedFilterContext } from "../../store/context/selected-filter-context";
+import { MoviesContext } from "../../store/context/movies-context";
+import Movie from "../../model/movie";
+import MoviesList from "../../components/moviesOutput/MoviesList";
+import { fetchMovies } from "../../services/movies.service";
+import { getSelectedFilterKey } from "../../utils/Utils";
 
-type CommonMoviesScreenProps = {
-  selectedFilter: string;
-};
+import ErrorOverlay from "../../components/UI/ErrorOverlay";
+import LoadingOverlay from "../../components/UI/LoadingOverlay";
 
-export default function CommonMoviesScreen({ selectedFilter }: CommonMoviesScreenProps): React.JSX.Element {
+export default function MoviesScreen(): React.JSX.Element {
+
+  const selectedFilterCtx = useContext(SelectedFilterContext);
   const [isFetching, setIsFetching] = useState(true);
   const [error, setError] = useState("");
   const moviesCtx = useContext(MoviesContext);
+  const selectedFilter = selectedFilterCtx?.selectedFilter || "Popular";
 
-  function renderRequiredMovies({ selectedFilter }: CommonMoviesScreenProps): React.JSX.Element {
+  function renderRequiredMovies({ selectedFilter }: { selectedFilter: string }): React.JSX.Element {
     let movies: Movie[];
     switch (selectedFilter) {
       case "Popular":
@@ -40,7 +41,7 @@ export default function CommonMoviesScreen({ selectedFilter }: CommonMoviesScree
     );
   }
 
-  function storeSelectedMovies(selectedFilter: string, moviesList: Movie[]): void {
+  function storeSelectedMovies({ selectedFilter, moviesList }: { selectedFilter: string, moviesList: Movie[] }): void {
     switch (selectedFilter) {
       case "Popular":
         moviesCtx?.setPopularMovies(moviesList);
@@ -69,7 +70,7 @@ export default function CommonMoviesScreen({ selectedFilter }: CommonMoviesScree
           page: 1,
           language: "en-us"
         });
-        storeSelectedMovies(selectedFilter, moviesList);
+        storeSelectedMovies({ selectedFilter, moviesList });
       } catch (errorMessage) {
         setError("Could not fetch movies: " + errorMessage);
       }

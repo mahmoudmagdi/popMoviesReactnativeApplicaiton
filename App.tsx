@@ -1,15 +1,15 @@
-import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import MoviesContextProvider from "./store/context/movies-context";
+import React from 'react';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import MoviesContextProvider from './store/context/movies-context';
 
-import ProfileScreen from "./screens/bottomTab/profileScreen";
-import MovieOverViewScreen from "./screens/MovieOverViewScreen";
-import SelectedFilterContextProvider from "./store/context/selected-filter-context.tsx";
-import MoviesScreen from "./screens/bottomTab/MoviesScreen.tsx";
-import FavoritesScreen from "./screens/bottomTab/FavoritesScreen";
-import SearchScreen from "./screens/SearchScreen.tsx";
+import ProfileScreen from './screens/bottomTabs/profileScreen';
+import MovieDetailsScreen from './screens/MovieDetailsScreen.tsx';
+import SelectedFilterContextProvider from './store/context/selected-filter-context.tsx';
+import MoviesScreen from './screens/bottomTabs/MoviesScreen.tsx';
+import FavoritesScreen from './screens/bottomTabs/FavoritesScreen';
+import SearchScreen from './screens/SearchScreen.tsx';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -33,9 +33,9 @@ function App() {
             <Stack.Screen
               name="Home"
               component={Home}
-              options={{ headerShown: false }}
+              options={{headerShown: false}}
             />
-            <Stack.Screen name="MovieDetails" component={MovieOverViewScreen} />
+            <Stack.Screen name="MovieDetails" component={MovieDetailsScreen} />
             <Stack.Screen name="SearchScreen" component={SearchScreen} />
           </Stack.Navigator>
         </NavigationContainer>
