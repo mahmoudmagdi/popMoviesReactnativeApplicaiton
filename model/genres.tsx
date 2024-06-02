@@ -1,11 +1,16 @@
-class Genres {
-  id: number;
-  name: string;
+import Realm, {ObjectSchema} from 'realm';
 
-  constructor(id: number, name: string) {
-    this.id = id;
-    this.name = name;
-  }
+class Genres extends Realm.Object {
+  id?: number;
+  name?: string;
+
+  static schema: ObjectSchema = {
+    name: 'Genres',
+    properties: {
+      id: 'int',
+      name: 'string',
+    },
+  };
 }
 
 export default Genres;
