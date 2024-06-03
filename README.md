@@ -1,79 +1,133 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# 🎬 Demo React Native Movie Application
 
-# Getting Started
+This is a demo React Native application designed to showcase various features and libraries in React Native. The application uses the MovieDB API to fetch popular, upcoming, top-rated, and now-playing movies, with the ability to search the movie database and store users' favorite movies.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## ✨ Features
 
-## Step 1: Start the Metro Server
+- [x] 📽️ Fetch movies with common filters (popular, upcoming, top-rated, now playing)
+- [x] ⭐ Store and list favorite movies
+- [ ] 🔍 Search for movies in the MovieDB database
+- [ ] 🔑 User authentication (login, register, reset password)
+- [ ] ✏️ Change user information
+- [ ] 🌗 Change application theme (dark, light)
+- [ ] 🌍 Localize the application
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
 
-To start Metro, run the following command from the _root_ of your React Native project:
+## 🛠️ Technologies and Libraries
 
-```bash
-# using npm
-npm start
+This application uses the following technologies and libraries:
 
-# OR using Yarn
-yarn start
+- [React Native](https://reactnative.dev/)
+- [React Native Navigation](https://reactnavigation.org/)
+- [Realm SDK for React Native](https://realm.io/docs/javascript/latest/)
+- [Redux](https://redux.js.org/)
+- [Context API](https://reactjs.org/docs/context.html)
+- [Axios](https://axios-http.com/)
+- [MovieDB API](https://developer.themoviedb.org/docs/getting-started)
+
+
+## 🚀 Getting Started
+
+To get a local copy up and running, follow these simple steps.
+
+
+### 📋 Prerequisites
+
+- [Node.js](https://nodejs.org/en/)
+- [React Native CLI](https://reactnative.dev/docs/environment-setup)
+- [MovieDB API Key](https://developer.themoviedb.org/docs/authentication)
+
+
+### 🛠️ Installation
+
+1. Clone the repository:
+
+    ```sh
+    git clone https://github.com/your-username/react-native-movie-app.git
+    ```
+
+2. Navigate to the project directory:
+
+    ```sh
+    cd react-native-movie-app
+    ```
+
+3. Install the dependencies:
+
+    ```sh
+    npm install
+    ```
+
+4. Create a `.env` file in the root directory and add your MovieDB API key:
+
+    ```env
+    MOVIEDB_API_KEY=your_api_key_here
+    ```
+
+5. Run the application:
+
+    ```sh
+    npx react-native run-android
+    # or for iOS
+    npx react-native run-ios
+    ```
+
+
+## 📂 Project Structure
+
+```
+/components # Reusable UI components
+/constants # Global styles and colors
+/data # All constants data such as movies filters
+/model # Application data classes and Realm database schemas
+/screens # Application screens
+└── /bottomTabs # Application bottom tabs screens
+/services # API services (Axios)
+/store
+├── /redux # Redux store, actions, and reducers
+├── /realm # Realm database and configuration
+└── /context # Context API store, actions, and reducers
+/utils # Utility functions and helpers
+/App.js # Main application file
 ```
 
-## Step 2: Start your Application
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+## 📚 Usage
 
-### For Android
+### 🎥 Fetch Movies
 
-```bash
-# using npm
-npm run android
+The application fetches movies using Axios to make requests to the MovieDB API. The movies are categorized into popular, upcoming, top-rated, and now playing.
 
-# OR using Yarn
-yarn android
-```
+### 🔍 Search Movies
 
-### For iOS
+Users can search for movies using the search functionality. The search query is sent to the MovieDB API, and the results are displayed in the application.
 
-```bash
-# using npm
-npm run ios
+### ⭐ Favorite Movies
 
-# OR using Yarn
-yarn ios
-```
+Users can add movies to their list of favorites. The favorite movies are stored locally using Realm, allowing for offline access.
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+### 🔑 User Authentication
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+The application includes user authentication features such as login, registration, and password reset. User information can be updated from within the app.
 
-## Step 3: Modifying your App
+### 🌗 Theme and Localization
 
-Now that you have successfully run the app, let's modify it.
+Users can switch between dark and light themes. The application also supports localization for multiple languages.
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+## 🤝 Contributing
 
-## Congratulations! :tada:
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-You've successfully run and modified your React Native App. :partying_face:
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-### Now what?
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+## 📧 Contact
 
-# Troubleshooting
+Mahmoud ElKhlafawi - [mahmoudmagdi@ymail.com](mailto:mahmoudmagdi@ymail.com)
 
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+Project Link: [https://github.com/mahmoudmagdi/popMoviesReactnativeApplicaiton](https://github.com/mahmoudmagdi/popMoviesReactnativeApplicaiton)
