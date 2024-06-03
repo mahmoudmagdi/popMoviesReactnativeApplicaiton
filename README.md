@@ -23,7 +23,6 @@ This application uses the following technologies and libraries:
 - [Redux](https://redux.js.org/)
 - [Context API](https://reactjs.org/docs/context.html)
 - [Axios](https://axios-http.com/)
-- [MovieDB API](https://developer.themoviedb.org/docs/getting-started)
 
 
 ## 🚀 Getting Started
@@ -43,13 +42,13 @@ To get a local copy up and running, follow these simple steps.
 1. Clone the repository:
 
     ```sh
-    git clone https://github.com/your-username/react-native-movie-app.git
+    git clone https://github.com/mahmoudmagdi/popMoviesReactnativeApplicaiton.git
     ```
 
 2. Navigate to the project directory:
 
     ```sh
-    cd react-native-movie-app
+    cd popMoviesReactnativeApplicaiton
     ```
 
 3. Install the dependencies:
