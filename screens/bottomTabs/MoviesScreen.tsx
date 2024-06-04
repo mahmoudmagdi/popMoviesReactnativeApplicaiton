@@ -78,10 +78,7 @@ export default function MoviesScreen(): React.JSX.Element {
       setIsFetching(false);
     }
 
-    getSelectedMovies().then(
-      () => console.log("Movies fetched successfully"),
-      (error) => console.error("Error fetching movies: ", error)
-    );
+    getSelectedMovies();
   }, [selectedFilter]);
 
   if (error && !isFetching) {

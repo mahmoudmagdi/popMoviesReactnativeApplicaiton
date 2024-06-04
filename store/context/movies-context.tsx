@@ -26,7 +26,6 @@ export const MoviesContext: React.Context<MoviesContextProps | null> = createCon
 const moviesReducer = (state: Movie[], action: MoviesActionProps) => {
   switch (action.type) {
     case "ADD_POPULAR_MOVIES":
-      console.log("Adding popular movies");
       return action.popularMovies;
     case "ADD_TOP_RATED_MOVIES":
       return action.topRatedMovies;
