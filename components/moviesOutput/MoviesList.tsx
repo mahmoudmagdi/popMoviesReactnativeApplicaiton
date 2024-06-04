@@ -15,10 +15,10 @@ function renderHeaderComponent(): React.JSX.Element {
 
 interface MoviesListProps {
   movies: Movie[];
-  isFavoritesScreen?: boolean;
+  withHeader?: boolean;
 }
 
-function MoviesList({movies, isFavoritesScreen = false}: MoviesListProps) {
+function MoviesList({movies, withHeader = true}: MoviesListProps) {
   const windowDimensions: ScaledSize = useWindowDimensions();
   const numberOfColumns: number = windowDimensions.width > 600 ? 4 : 2;
   const key: string = numberOfColumns === 4 ? 'landscape-' : 'portrait-';
@@ -30,7 +30,7 @@ function MoviesList({movies, isFavoritesScreen = false}: MoviesListProps) {
       renderItem={renderMovieItem}
       keyExtractor={item => key + item.id.toString()}
       numColumns={numberOfColumns}
-      ListHeaderComponent={!isFavoritesScreen ? renderHeaderComponent : null}
+      ListHeaderComponent={withHeader ? renderHeaderComponent : null}
     />
   );
 }
