@@ -10,14 +10,16 @@ const axiosClient = axios.create({
 
 export type fetchMoviesProps = {
   category: string | null;
-  page: number | null;
-  language: string | null;
+  page?: number | null;
+  language?: string | null;
+  query?: string | null;
 };
 
 async function fetchMovies({
   category,
   page = 1,
   language = 'en-us',
+  query = '',
 }: fetchMoviesProps): Promise<Movie[]> {
   let url: string;
   switch (category) {
@@ -32,6 +34,9 @@ async function fetchMovies({
       break;
     case 'now_playing':
       url = `/movie/now_playing?api_key=${API_KEY}&language=${language}&page=${page}`;
+      break;
+    case 'search':
+      url = `/search/movie?api_key=${API_KEY}&language=${language}&query=${query}&page=${page}`;
       break;
     default:
       url = `/movie/popular?api_key=${API_KEY}&language=${language}&page=${page}`;
@@ -51,14 +56,4 @@ function getMovieDetail(
   );
 }
 
-function searchMovies(
-  query: string,
-  page: number,
-  language: string = 'en-us',
-): Promise<AxiosResponse<Movie[]>> {
-  return axiosClient.get(
-    `/search/movie?api_key=${API_KEY}&language=${language}&query=${query}&page=${page}`,
-  );
-}
-
-export {fetchMovies, getMovieDetail, searchMovies};
+export {fetchMovies, getMovieDetail};
