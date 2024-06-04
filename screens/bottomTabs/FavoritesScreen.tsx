@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import MoviesList from '../../components/moviesOutput/MoviesList';
-import {getFavoriteMovies} from '../../store/realm/database';
-import realm from '../../store/realm/realmConfig';
-import Movie from '../../model/movie.tsx';
+import React, { useEffect, useState } from "react";
+import MoviesList from "../../components/moviesOutput/MoviesList";
+import { getFavoriteMovies } from "../../store/realm/database";
+import realm from "../../store/realm/realmConfig";
+import Movie from "../../model/movie";
 
 export default function FavoritesScreen(): React.JSX.Element {
   const [favoriteMovies, setFavoriteMovies] = useState<
@@ -22,15 +22,13 @@ export default function FavoritesScreen(): React.JSX.Element {
       fetchFavoriteMovies();
     };
 
-    realm.addListener('change', realmListener);
+    realm.addListener("change", realmListener);
 
     // Clean up the listener on unmount
     return () => {
-      realm.removeListener('change', realmListener);
+      realm.removeListener("change", realmListener);
     };
   }, []);
 
-  return (
-    <MoviesList movies={favoriteMovies as Movie[]} isFavoritesScreen={true} />
-  );
+  return <MoviesList movies={favoriteMovies as Movie[]} withHeader={false} />;
 }
