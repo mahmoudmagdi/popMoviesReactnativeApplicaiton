@@ -13,6 +13,8 @@ search the movie database and store users' favorite movies.
 - [ ] ✏️ Change user information
 - [ ] 🌗 Change application theme (dark, light)
 - [ ] 🌍 Localize the application
+- [ ] ✅ Add required unit testing
+- [ ] 🚀 Add CI/CD for Android and iOS builds using FastLane and GitHub Actions
 
 ## 🛠️ Technologies and Libraries
 
