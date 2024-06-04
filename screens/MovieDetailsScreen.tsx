@@ -1,8 +1,5 @@
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
-import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
-import { MoviesContext } from "../store/context/movies-context";
-import { SelectedFilterContext } from "../store/context/selected-filter-context";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import Movie from "../model/movie";
 
 import MovieDetails from "../components/moviesOutput/MovieDetails";
@@ -12,55 +9,73 @@ import {
   addMovieToFavorites,
   isMovieFavorite,
   removeMovieFromFavorites
-} from "../store/realm/database.tsx";
+} from "../store/realm/database";
+import { fetchMovieDetails } from "../services/movies.service";
+import ErrorOverlay from "../components/UI/ErrorOverlay";
+import LoadingOverlay from "../components/UI/LoadingOverlay";
+import { useDispatch } from "react-redux";
 
 type MovieOverViewScreenProps = {
   route: any;
   navigation: any;
 };
 
-function MovieDetailsScreen({
-                              route,
-                              navigation
-                            }: MovieOverViewScreenProps): React.JSX.Element {
-  const movieCtx = useContext(MoviesContext);
-  const selectedFilterCtx = useContext(SelectedFilterContext);
-  const selectedFilter = selectedFilterCtx?.selectedFilter;
-  const movieId = route.params.movieId;
+function MovieDetailsScreen(
+  {
+    route,
+    navigation
+  }: MovieOverViewScreenProps): React.JSX.Element {
+  const movieId = route.params.movieId ?? 0;
 
-  let movieItem: Movie | null;
+  const [isFetching, setIsFetching] = useState(true);
+  const [error, setError] = useState("");
+  const [movieItem, setMovieItem] = useState<Movie | null>(null);
+  const [isFavorite, setIsFavorite] = useState(false);
 
-  switch (selectedFilter) {
-    case "Popular":
-      movieItem =
-        movieCtx?.popularMovies.find(movie => movie.id === movieId) ?? null;
-      break;
-    case "Top Rated":
-      movieItem =
-        movieCtx?.topRatedMovies.find(movie => movie.id === movieId) ?? null;
-      break;
-    case "Now Playing":
-      movieItem =
-        movieCtx?.nowPlayingMovies.find(movie => movie.id === movieId) ?? null;
-      break;
-    case "Upcoming":
-      movieItem =
-        movieCtx?.upcomingMovies.find(movie => movie.id === movieId) ?? null;
-      break;
-    default:
-      movieItem = null;
-  }
-
-  // const favoriteMovies = useSelector(
-  //   (state: any) => state.favoriteMovies.favoriteMovies
-  // );
-  const [isFavorite, setIsFavorite] = useState(
-    movieItem?.id ? isMovieFavorite(movieItem?.id) : false
-  );
   const dispatch = useDispatch();
 
+  if (movieId == 0) {
+    return <ErrorOverlay message="Invalid movie id!" />;
+  }
+
+  useEffect(() => {
+    let isFav = movieId ? isMovieFavorite(movieId) : false;
+    setIsFavorite(isFav);
+  }, []);
+
+  function renderMovieDetails() {
+    useEffect(() => {
+      async function getMovieDetails() {
+        setIsFetching(true);
+        try {
+          let movie = await fetchMovieDetails({
+            movieId: movieId,
+            language: "en-us"
+          });
+
+          setMovieItem(movie);
+        } catch (errorMessage) {
+          setError("Could not fetch movies: " + errorMessage);
+        }
+
+        setIsFetching(false);
+      }
+
+      getMovieDetails();
+    }, []);
+
+    if (error && !isFetching) {
+      return <ErrorOverlay message={error} />;
+    }
+
+    if (isFetching) {
+      return <LoadingOverlay />;
+    }
+  }
+
+  renderMovieDetails();
+
   function changeFavoriteStatusHandler() {
-    console.log("changing favorite status");
     if (isFavorite) {
       // remove from favorites
       dispatch(removeFavorite(movieItem));
@@ -83,8 +98,9 @@ function MovieDetailsScreen({
   }
 
   useLayoutEffect(() => {
+    let title = movieItem?.title ?? "Movie Details";
     navigation.setOptions({
-      title: movieItem?.title,
+      title: title,
       headerRight: () => {
         return (
           <Icon
