@@ -1,18 +1,27 @@
-import { View, Text, StyleSheet } from "react-native";
-import React from "react";
+import React, { useState } from "react";
+import Searchbar from "../components/movieSearch/Searchbar.tsx";
+import SearchResults from "../components/movieSearch/SearchResults.tsx";
+import { View, StyleSheet } from "react-native";
 
-export default function SearchScreen(): React.JSX.Element {
+function SearchScreen(): React.JSX.Element {
+  const [keyWord, setKeyWord] = useState<string>("");
+
+  function handleSearch(keyword: string): void {
+    setKeyWord(keyword);
+  }
+
   return (
     <View style={styles.container}>
-      <Text>Search Screen</Text>
+      <Searchbar setKeyword={handleSearch} />
+      <SearchResults keyword={keyWord} />
     </View>
   );
 }
 
+export default SearchScreen;
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
+    flex: 1
   }
 });
