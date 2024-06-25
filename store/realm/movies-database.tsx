@@ -1,5 +1,5 @@
 import realm from "./realmConfig";
-import Movie from "../../model/movie.tsx";
+import Movie from "../../model/movie";
 
 // Add movie to favorites
 export const addMovieToFavorites = (movie: Movie | null): void => {

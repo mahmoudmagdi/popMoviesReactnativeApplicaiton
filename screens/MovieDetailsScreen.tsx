@@ -9,11 +9,16 @@ import {
   addMovieToFavorites,
   isMovieFavorite,
   removeMovieFromFavorites
-} from "../store/realm/database";
+} from "../store/realm/movies-database";
 import { fetchMovieDetails } from "../services/movies.service";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import { useDispatch } from "react-redux";
+import { GlobalStyle } from "../constants/styles.tsx";
+import { useTheme } from "../store/context/theme.context.tsx";
+import { Theme } from "../model/settings/Theme.tsx";
+import { useLanguage } from "../store/context/language.context.tsx";
+import Language from "../model/settings/Language.tsx";
 
 type MovieOverViewScreenProps = {
   route: any;
@@ -25,8 +30,9 @@ function MovieDetailsScreen(
     route,
     navigation
   }: MovieOverViewScreenProps): React.JSX.Element {
+  const { theme } = useTheme();
+  const { language } = useLanguage();
   const movieId = route.params.movieId ?? 0;
-
   const [isFetching, setIsFetching] = useState(true);
   const [error, setError] = useState("");
   const [movieItem, setMovieItem] = useState<Movie | null>(null);
@@ -50,7 +56,7 @@ function MovieDetailsScreen(
         try {
           let movie = await fetchMovieDetails({
             movieId: movieId,
-            language: "en-us"
+            language: language.code
           });
 
           setMovieItem(movie);
@@ -116,19 +122,19 @@ function MovieDetailsScreen(
   }, [isFavorite, changeFavoriteStatusHandler]);
 
   return (
-    <View style={styles.container}>
+    <View style={styles(theme, language).container}>
       <ScrollView>
         <Image
           source={{
             uri: `https://image.tmdb.org/t/p/w500/${movieItem?.poster_path}`
           }}
-          style={styles.backdropImage}
+          style={styles(theme, language).backdropImage}
         />
-        <View style={styles.detailsContainer}>
-          <Text style={styles.title}>{movieItem?.title}</Text>
-          <Text style={styles.overview}>{movieItem?.overview}</Text>
+        <View style={styles(theme, language).detailsContainer}>
+          <Text style={styles(theme, language).title}>{movieItem?.title}</Text>
+          <Text style={styles(theme, language).overview}>{movieItem?.overview}</Text>
           <MovieDetails
-            customStyle={styles.movieDetails}
+            customStyle={styles(theme, language).movieDetails}
             movie={movieItem}
             direction="row"
           />
@@ -138,7 +144,7 @@ function MovieDetailsScreen(
   );
 }
 
-const styles = StyleSheet.create({
+const styles = (theme: Theme, language: Language) => StyleSheet.create({
   container: {
     flex: 1
   },
@@ -153,12 +159,15 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginVertical: 10,
-    textAlign: "center"
+    textAlign: "center",
+    color: (theme === Theme.Dark) ? GlobalStyle.colorsDark["text"] : GlobalStyle.colorLight["text"]
   },
   overview: {
     fontSize: 18,
     marginHorizontal: 10,
-    marginTop: 10
+    marginTop: 10,
+    textAlign: (language.code === "ar") ? "right" : "left",
+    color: (theme === Theme.Dark) ? GlobalStyle.colorsDark["textSecondary"] : GlobalStyle.colorLight["textSecondary"]
   },
   movieDetails: {
     marginTop: 10

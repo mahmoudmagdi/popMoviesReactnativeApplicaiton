@@ -18,7 +18,7 @@ function MovieDetails({
     <>
       <View style={styles.informationContainer}>
         <InformationItem iconName="globe-africa" text={movie?.original_language || ""} />
-        <InformationItem iconName="users" text={movie?.popularity.toString() || ""} />
+        <InformationItem iconName="users" text={movie?.popularity?.toString() || ""} />
       </View>
       <View style={styles.informationContainer}>
         <InformationItem
@@ -34,7 +34,7 @@ function MovieDetails({
       <>
         <View style={styles.informationContainer}>
           <InformationItem iconName="globe-africa" text={movie?.original_language || ""} />
-          <InformationItem iconName="users" text={movie?.popularity.toString() || ""} />
+          <InformationItem iconName="users" text={movie?.popularity?.toString() || ""} />
           <InformationItem
             iconName="star"
             text={`${movie?.vote_average} (${movie?.vote_count})`}
