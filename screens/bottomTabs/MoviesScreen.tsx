@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { SelectedFilterContext } from "../../store/context/selected-filter-context";
-import { MoviesContext } from "../../store/context/movies-context";
+import { MoviesContext } from "../../store/context/movies.context.tsx";
 import Movie from "../../model/movie";
 import MoviesList from "../../components/moviesOutput/MoviesList";
 import { fetchMovies } from "../../services/movies.service";
@@ -8,14 +7,30 @@ import { getSelectedFilterKey } from "../../utils/Utils";
 
 import ErrorOverlay from "../../components/UI/ErrorOverlay";
 import LoadingOverlay from "../../components/UI/LoadingOverlay";
+import { useLanguage } from "../../store/context/language.context.tsx";
+import { SelectedFilterContext } from "../../store/context/selected-filter-context.tsx";
 
-export default function MoviesScreen(): React.JSX.Element {
+function MoviesScreen(): React.JSX.Element {
 
+  const { language } = useLanguage();
   const selectedFilterCtx = useContext(SelectedFilterContext);
   const [isFetching, setIsFetching] = useState(true);
   const [error, setError] = useState("");
   const moviesCtx = useContext(MoviesContext);
   const selectedFilter = selectedFilterCtx?.selectedFilter || "Popular";
+
+  useEffect(() => {
+    if (moviesCtx) {
+      moviesCtx.setPopularMovies([]);
+      moviesCtx.setTopRatedMovies([]);
+      moviesCtx.setUpcomingMovies([]);
+      moviesCtx.setNowPlayingMovies([]);
+    }
+
+    if (selectedFilterCtx) {
+      selectedFilterCtx.setSelectedFilter("Popular");
+    }
+  }, [language]);
 
   function renderRequiredMovies({ selectedFilter }: { selectedFilter: string }): React.JSX.Element {
     let movies: Movie[];
@@ -68,7 +83,7 @@ export default function MoviesScreen(): React.JSX.Element {
         moviesList = await fetchMovies({
           category: getSelectedFilterKey(selectedFilter),
           page: 1,
-          language: "en-us"
+          language: language.code
         });
         storeSelectedMovies({ selectedFilter, moviesList });
       } catch (errorMessage) {
@@ -79,7 +94,7 @@ export default function MoviesScreen(): React.JSX.Element {
     }
 
     getSelectedMovies();
-  }, [selectedFilter]);
+  }, [selectedFilter, language]);
 
   if (error && !isFetching) {
     return <ErrorOverlay message={error} />;
@@ -91,3 +106,5 @@ export default function MoviesScreen(): React.JSX.Element {
 
   return renderRequiredMovies({ selectedFilter });
 }
+
+export default MoviesScreen;

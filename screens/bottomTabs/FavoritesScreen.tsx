@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import MoviesList from "../../components/moviesOutput/MoviesList";
-import { getFavoriteMovies } from "../../store/realm/database";
+import { getFavoriteMovies } from "../../store/realm/movies-database.tsx";
 import realm from "../../store/realm/realmConfig";
 import Movie from "../../model/movie";
 

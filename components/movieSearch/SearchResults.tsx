@@ -1,14 +1,17 @@
-import MoviesList from '../moviesOutput/MoviesList.tsx';
-import React, {useEffect, useState} from 'react';
-import Movie from '../../model/movie.tsx';
-import {fetchMovies} from '../../services/movies.service.tsx';
-import ErrorOverlay from '../UI/ErrorOverlay.tsx';
-import LoadingOverlay from '../UI/LoadingOverlay.tsx';
-import EmptySearchOverly from '../UI/EmptySearchOverlay.tsx';
+import MoviesList from "../moviesOutput/MoviesList.tsx";
+import React, { useEffect, useState } from "react";
+import Movie from "../../model/movie.tsx";
+import { fetchMovies } from "../../services/movies.service.tsx";
+import ErrorOverlay from "../UI/ErrorOverlay.tsx";
+import LoadingOverlay from "../UI/LoadingOverlay.tsx";
+import EmptySearchOverly from "../UI/EmptySearchOverlay.tsx";
+import { useLanguage } from "../../store/context/language.context.tsx";
+import { GlobalContent } from "../../constants/content.ts";
 
-function SearchResults({keyword}: {keyword: string}): React.JSX.Element {
+function SearchResults({ keyword }: { keyword: string }): React.JSX.Element {
+  const { language } = useLanguage();
   const [isFetching, setIsFetching] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [moviesList, setMoviesList] = useState<Movie[] | []>([]);
 
   useEffect(() => {
@@ -16,15 +19,15 @@ function SearchResults({keyword}: {keyword: string}): React.JSX.Element {
       setIsFetching(true);
       try {
         let moviesList = await fetchMovies({
-          category: 'search',
+          category: "search",
           page: 1,
-          language: 'en-us',
-          query: keyword,
+          language: language.code,
+          query: keyword
         });
 
         setMoviesList(moviesList);
       } catch (errorMessage) {
-        setError('Could not fetch movies: ' + errorMessage);
+        setError("Could not fetch movies: " + errorMessage);
       }
 
       setIsFetching(false);
@@ -42,7 +45,7 @@ function SearchResults({keyword}: {keyword: string}): React.JSX.Element {
   }
 
   if (moviesList.length === 0) {
-    return <EmptySearchOverly message="Wrtie your movie" />;
+    return <EmptySearchOverly message={GlobalContent[language.name].writeYourMovie} />;
   }
 
   return <MoviesList movies={moviesList} withHeader={false} />;
