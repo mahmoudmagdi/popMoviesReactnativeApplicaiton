@@ -8,7 +8,8 @@ import { getSelectedFilterKey } from "../../utils/Utils";
 import ErrorOverlay from "../../components/UI/ErrorOverlay";
 import LoadingOverlay from "../../components/UI/LoadingOverlay";
 import { useLanguage } from "../../store/context/language.context.tsx";
-import { SelectedFilterContext } from "../../store/context/selected-filter-context.tsx";
+import { SelectedFilterContext } from "../../store/context/selected-filter-context";
+import { Filter, Filters } from "../../data/filters";
 
 function MoviesScreen(): React.JSX.Element {
 
@@ -17,7 +18,7 @@ function MoviesScreen(): React.JSX.Element {
   const [isFetching, setIsFetching] = useState(true);
   const [error, setError] = useState("");
   const moviesCtx = useContext(MoviesContext);
-  const selectedFilter = selectedFilterCtx?.selectedFilter || "Popular";
+  const selectedFilter = selectedFilterCtx?.selectedFilter || Filters[0];
 
   useEffect(() => {
     if (moviesCtx) {
@@ -28,13 +29,13 @@ function MoviesScreen(): React.JSX.Element {
     }
 
     if (selectedFilterCtx) {
-      selectedFilterCtx.setSelectedFilter("Popular");
+      selectedFilterCtx.setSelectedFilter(Filters[0]);
     }
   }, [language]);
 
-  function renderRequiredMovies({ selectedFilter }: { selectedFilter: string }): React.JSX.Element {
+  function renderRequiredMovies({ selectedFilter }: { selectedFilter: Filter }): React.JSX.Element {
     let movies: Movie[];
-    switch (selectedFilter) {
+    switch (selectedFilter.keyword) {
       case "Popular":
         movies = moviesCtx?.popularMovies || [];
         break;
@@ -56,8 +57,8 @@ function MoviesScreen(): React.JSX.Element {
     );
   }
 
-  function storeSelectedMovies({ selectedFilter, moviesList }: { selectedFilter: string, moviesList: Movie[] }): void {
-    switch (selectedFilter) {
+  function storeSelectedMovies({ selectedFilter, moviesList }: { selectedFilter: Filter, moviesList: Movie[] }): void {
+    switch (selectedFilter.keyword) {
       case "Popular":
         moviesCtx?.setPopularMovies(moviesList);
         break;
@@ -81,7 +82,7 @@ function MoviesScreen(): React.JSX.Element {
       try {
         let moviesList: Movie[];
         moviesList = await fetchMovies({
-          category: getSelectedFilterKey(selectedFilter),
+          category: getSelectedFilterKey(selectedFilter.keyword),
           page: 1,
           language: language.code
         });

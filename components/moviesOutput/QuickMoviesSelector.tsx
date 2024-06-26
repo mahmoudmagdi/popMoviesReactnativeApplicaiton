@@ -6,10 +6,12 @@ import { Theme } from "../../model/settings/Theme";
 import { useTheme } from "../../store/context/theme.context";
 import { GlobalStyle } from "../../constants/styles.tsx";
 import { SelectedFilterContext } from "../../store/context/selected-filter-context.tsx";
+import { Filter } from "../../data/filters";
+import { useLanguage } from "../../store/context/language.context";
 
-type QuickMoviesSelectorProps = { filters: string[]; }
+type QuickMoviesSelectorProps = { filters: Filter[]; }
 
-type QuickMovieItemProps = { item: string; }
+type QuickMovieItemProps = { item: Filter; }
 
 function getIconColor(theme: Theme, isSelected: boolean): string {
   if (theme === Theme.Dark) {
@@ -21,6 +23,7 @@ function getIconColor(theme: Theme, isSelected: boolean): string {
 
 function QuickMoviesSelector({ filters }: QuickMoviesSelectorProps): React.JSX.Element {
   const { theme } = useTheme();
+  const { language } = useLanguage();
   const selectedFilterContext = useContext(SelectedFilterContext);
   const navigation = useNavigation();
 
@@ -28,7 +31,7 @@ function QuickMoviesSelector({ filters }: QuickMoviesSelectorProps): React.JSX.E
     const isSelected = selectedFilterContext?.selectedFilter == item;
 
     function QuickMovieItemClickHandler() {
-      if (item == "Search") {
+      if (item.keyword == "search") {
         navigation.navigate("SearchScreen" as never);
         return;
       }
@@ -38,10 +41,12 @@ function QuickMoviesSelector({ filters }: QuickMoviesSelectorProps): React.JSX.E
 
     let content = (
       <Text
-        style={[!isSelected && styles(theme === Theme.Dark).quickMovieItemText, isSelected && styles(theme === Theme.Dark).quickMovieItemSelectedText]}>{item}</Text>
+        style={[!isSelected && styles(theme === Theme.Dark).quickMovieItemText, isSelected && styles(theme === Theme.Dark).quickMovieItemSelectedText]}>
+        {item.title[language.name]}
+      </Text>
     );
 
-    if (item == "Search") {
+    if (item.keyword == "search") {
       content = (
         <Icon name={"search"} size={14} color={getIconColor(theme, isSelected)} />
       );
@@ -62,7 +67,7 @@ function QuickMoviesSelector({ filters }: QuickMoviesSelectorProps): React.JSX.E
       style={styles(theme === Theme.Dark).filter}
       data={filters}
       renderItem={QuickMovieItem}
-      keyExtractor={(item) => item}
+      keyExtractor={(item) => item.keyword}
       horizontal={true}
       showsHorizontalScrollIndicator={false}
     />
