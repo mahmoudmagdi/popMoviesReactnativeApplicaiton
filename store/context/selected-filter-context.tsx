@@ -1,35 +1,19 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useState } from "react";
+import { Filter, Filters } from "../../data/filters";
 
 type SelectedFilterContextProps = {
-  selectedFilter: string;
-  setSelectedFilter: (filter: string) => void;
-}
-
-type SelectedFilterActionProps = {
-  type: string;
-  selectedFilter: string;
+  selectedFilter: Filter;
+  setSelectedFilter: (filter: Filter) => void;
 }
 
 export const SelectedFilterContext: React.Context<SelectedFilterContextProps | null> = createContext<SelectedFilterContextProps | null>(null);
 
-const selectedFilterReducer = (state: string, action: SelectedFilterActionProps) => {
-  switch (action.type) {
-    case "SET_SELECTED_FILTER":
-      return action.selectedFilter;
-    default:
-      return state;
-  }
-};
-
 function SelectedFilterContextProvider({ children }: any): React.JSX.Element {
-  const [selectedFilterState, dispatchSelectedFilter] = useReducer(selectedFilterReducer, "Popular");
+  const initialSelectedFilter: Filter = Filters[0];
+  const [selectedFilterState, setFilterState] = useState<Filter>(initialSelectedFilter);
 
-  const setSelectedFilter = (selectedFilter: string) => {
-    const selectedFilterActionProps: SelectedFilterActionProps = {
-      type: "SET_SELECTED_FILTER",
-      selectedFilter: selectedFilter
-    };
-    dispatchSelectedFilter(selectedFilterActionProps);
+  const setSelectedFilter = (selectedFilter: Filter) => {
+    setFilterState(selectedFilter);
   };
 
   const value = {
