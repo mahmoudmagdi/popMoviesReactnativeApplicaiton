@@ -1,16 +1,16 @@
-import React from 'react';
-import {FlatList, ScaledSize, useWindowDimensions} from 'react-native';
-import MovieCard from './MovieCard';
-import Movie from '../../model/movie';
-import QuickMoviesSelector from './QuickMoviesSelector';
-import {FILTERS} from '../../data/filters';
+import React from "react";
+import { FlatList, ScaledSize, useWindowDimensions } from "react-native";
+import MovieCard from "./MovieCard";
+import Movie from "../../model/movie";
+import QuickMoviesSelector from "./QuickMoviesSelector";
+import { Filters } from "../../data/filters.tsx";
 
-function renderMovieItem({item}: {item: Movie}) {
+function renderMovieItem({ item }: { item: Movie }) {
   return <MovieCard movie={item} />;
 }
 
 function renderHeaderComponent(): React.JSX.Element {
-  return <QuickMoviesSelector filters={FILTERS} />;
+  return <QuickMoviesSelector filters={Filters} />;
 }
 
 interface MoviesListProps {
@@ -18,10 +18,10 @@ interface MoviesListProps {
   withHeader?: boolean;
 }
 
-function MoviesList({movies, withHeader = true}: MoviesListProps) {
+function MoviesList({ movies, withHeader = true }: MoviesListProps) {
   const windowDimensions: ScaledSize = useWindowDimensions();
   const numberOfColumns: number = windowDimensions.width > 600 ? 4 : 2;
-  const key: string = numberOfColumns === 4 ? 'landscape-' : 'portrait-';
+  const key: string = numberOfColumns === 4 ? "landscape-" : "portrait-";
 
   return (
     <FlatList
