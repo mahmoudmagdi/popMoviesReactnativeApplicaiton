@@ -14,11 +14,11 @@ import { fetchMovieDetails } from "../services/movies.service";
 import ErrorOverlay from "../components/UI/ErrorOverlay";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import { useDispatch } from "react-redux";
-import { GlobalStyle } from "../constants/styles.tsx";
-import { useTheme } from "../store/context/theme.context.tsx";
-import { Theme } from "../model/settings/Theme.tsx";
-import { useLanguage } from "../store/context/language.context.tsx";
-import Language from "../model/settings/Language.tsx";
+import { GlobalStyle } from "../constants/styles";
+import { useTheme } from "../store/context/theme.context";
+import { Theme } from "../model/settings/Theme";
+import { useLanguage } from "../store/context/language.context";
+import Language from "../model/settings/Language";
 
 type MovieOverViewScreenProps = {
   route: any;
