@@ -4,17 +4,19 @@ This is a demo React Native application designed to showcase various features an
 application uses the MovieDB API to fetch popular, upcoming, top-rated, and now-playing movies, with the ability to
 search the movie database and store users' favorite movies.
 
+
 ## ✨ Features
 
 - [x] 📽️ Fetch movies with common filters (popular, upcoming, top-rated, now playing)
 - [x] ⭐ Store and list favorite movies
 - [x] 🔍 Search for movies in the MovieDB database
-- [ ] 🔑 User authentication (login, register, reset password)
-- [ ] ✏️ Change user information
-- [ ] 🌗 Change application theme (dark, light)
-- [ ] 🌍 Localize the application
+- [x] 🌍 Localize the application
+- [x] 🌗 Change application theme (dark, light)
 - [ ] ✅ Add required unit testing
 - [ ] 🚀 Add CI/CD for Android and iOS builds using FastLane and GitHub Actions
+- [ ] 🔑 User authentication (login, register, reset password)
+- [ ] ✏️ Change user information
+
 
 ## 🛠️ Technologies and Libraries
 
@@ -27,15 +29,18 @@ This application uses the following technologies and libraries:
 - [Context API](https://reactjs.org/docs/context.html)
 - [Axios](https://axios-http.com/)
 
+
 ## 🚀 Getting Started
 
 To get a local copy up and running, follow these simple steps.
+
 
 ### 📋 Prerequisites
 
 - [Node.js](https://nodejs.org/en/)
 - [React Native CLI](https://reactnative.dev/docs/environment-setup)
 - [MovieDB API Key](https://developer.themoviedb.org/docs/authentication)
+
 
 ### 🛠️ Installation
 
@@ -71,6 +76,7 @@ To get a local copy up and running, follow these simple steps.
     npx react-native run-ios
     ```
 
+
 ## 📂 Project Structure
 
 ```
@@ -88,6 +94,7 @@ To get a local copy up and running, follow these simple steps.
 /utils # Utility functions and helpers
 /App.js # Main application file
 ```
+
 
 ## 📚 Usage
 
@@ -111,9 +118,11 @@ offline access.
 The application includes user authentication features such as login, registration, and password reset. User information
 can be updated from within the app.
 
+
 ### 🌗 Theme and Localization
 
 Users can switch between dark and light themes. The application also supports localization for multiple languages.
+
 
 ## 🤝 Contributing
 
@@ -125,6 +134,7 @@ contributions you make are **greatly appreciated**.
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
 
 ## 📧 Contact
 
